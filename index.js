@@ -5,6 +5,7 @@ const cors = require("cors");
 const session = require("express-session");
 const app = express();
 require("dotenv").config();
+
 // Session middleware setup
 app.use(
   session({
@@ -16,16 +17,18 @@ app.use(
 );
 
 app.use(express.json());
-app.use(cors());
-const corsOptions = {
-  origin: ["https://creative-design-school.vercel.app/"],
-  methods: ["GET", "POST"],
-  credentials: true,
-};
-app.use(cors(corsOptions));
-app.use(route);
-
 app.use(express.urlencoded({ extended: false }));
+
+// Use CORS middleware with options
+app.use(
+  cors({
+    origin: "https://creative-design-school.vercel.app/",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+
+app.use(route);
 
 const port = process.env.PORT;
 dbConnection();

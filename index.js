@@ -18,7 +18,9 @@ app.use(
 app.use(express.json());
 app.use(cors());
 const corsOptions = {
-  origin: "*",
+  origin: ["https://creative-design-school.vercel.app/"],
+  methods: ["GET", "POST"],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(route);

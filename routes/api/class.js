@@ -17,6 +17,6 @@ router.get("/myclasses", instructorCardController);
 router.post("/updatefeedback", updateFeedbackController);
 router.post("/classaccept", classAcceptController);
 router.post("/classreject", classRejectController);
-router.post("updateclass/:id", updateClassController);
+router.post("/updateclass/:id", updateClassController);
 
 module.exports = router;

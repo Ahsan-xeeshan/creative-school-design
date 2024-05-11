@@ -3,16 +3,27 @@ const UserList = require("../models/userSchema");
 const userSchema = require("../models/userSchema");
 
 async function registrationController(req, res) {
+  let emailInput = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+  let passwordInput =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
   const { username, email, image, password, confirmpassword, role } = req.body;
 
   if (!username) {
     return res.json({ error: "Name is required" });
   }
   if (!email) {
-    return res.json({ error: "Email is required" });
+    return res.json("Email is required!");
+  } else if (!emailInput.test(email)) {
+    return res.json("Email is Invalid");
   }
-  if (password !== confirmpassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
+  if (!password) {
+    return res.json("Password is required!");
+  } else {
+    if (!passwordInput.test(password)) {
+      return res.json(
+        "#Password should be between 8 to 15 characters which contain at least one lowercase letter[a-z], one uppercase letter[A-Z], one numeric digit[0-9], and one special character[!,@,#,$,%,^,&,*]"
+      );
+    }
   }
   const existingEmail = await UserList.find({ email });
 

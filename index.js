@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     origin: "https://creative-design-school.vercel.app",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
 );

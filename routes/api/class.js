@@ -19,6 +19,6 @@ router.post("/updatefeedback", updateFeedbackController);
 router.post("/classaccept", classAcceptController);
 router.post("/classreject", classRejectController);
 router.post("/updateclass/:id", updateClassController);
-router.delete("/deleteclass/:id", deleteClassController);
+router.post("/deleteclass/:id", deleteClassController);
 
 module.exports = router;

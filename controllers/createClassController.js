@@ -74,6 +74,7 @@ async function allClassController(req, res) {
   let data = await classSchema.find({});
   return res.json(data);
 }
+
 async function deleteClassController(req, res) {
   try {
     const { id } = req.body;
@@ -117,6 +118,7 @@ async function classAcceptController(req, res) {
   );
   res.json(updateStatus);
 }
+
 async function classRejectController(req, res) {
   const { id } = req.body;
   const updateStatus = await classSchema.findByIdAndUpdate(
@@ -127,6 +129,24 @@ async function classRejectController(req, res) {
   res.json(updateStatus);
 }
 
+async function classPurchaseController(req, res) {
+  try {
+    const { classname, price, image, buyerId } = req.body;
+    const purchaseData = new classSchema({
+      classname,
+      price,
+      image,
+      buyerId,
+    });
+    await purchaseData.save();
+    res.status(200).json({ success: true, message: "Purchase successful" });
+  } catch (error) {
+    // Handle the error
+    console.error("Error in class purchase:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+}
+
 module.exports = {
   createClassController,
   allClassController,
@@ -135,4 +155,5 @@ module.exports = {
   classAcceptController,
   classRejectController,
   updateClassController,
+  classPurchaseController,
 };

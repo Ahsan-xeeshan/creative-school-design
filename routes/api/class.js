@@ -9,6 +9,7 @@ const {
   classRejectController,
   updateClassController,
   deleteClassController,
+  classPurchaseController,
 } = require("../../controllers/createClassController.js");
 const instructorCardController = require("../../controllers/instructorCardController.js");
 
@@ -20,5 +21,6 @@ router.post("/classaccept", classAcceptController);
 router.post("/classreject", classRejectController);
 router.post("/updateclass/:id", updateClassController);
 router.post("/deleteclass", deleteClassController);
+router.post("/purchaseclass", classPurchaseController);
 
 module.exports = router;

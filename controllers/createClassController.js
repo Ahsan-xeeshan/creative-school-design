@@ -75,9 +75,17 @@ async function allClassController(req, res) {
   return res.json(data);
 }
 async function deleteClassController(req, res) {
-  const classId = req.params.id;
-  const data = await classSchema.findByIdAndDelete(classId);
-  res.send({ success: "Class deleted successfully" });
+  try {
+    const id = req.body;
+    const data = await classSchema.findByIdAndDelete(id);
+    if (!data) {
+      return res.status(404).send({ error: "Class not found" });
+    }
+    res.send({ success: "Class deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting class:", error);
+    res.status(500).send({ error: "Internal server error" });
+  }
 }
 
 async function updateFeedbackController(req, res) {

@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 // Use CORS middleware with options
 app.use(
   cors({
-    origin: "https://creative-design-school.vercel.app/",
+    origin: "https://creative-design-school.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
   })

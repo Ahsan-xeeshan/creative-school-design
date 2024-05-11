@@ -76,9 +76,8 @@ async function allClassController(req, res) {
 }
 async function deleteClassController(req, res) {
   try {
-    const { id } = req.body;
-    console.log(id);
-    const data = await classSchema.findByIdAndDelete({ _id: id });
+    const { id } = req.params;
+    const data = await classSchema.findByIdAndDelete(id, req.body);
     if (!data) {
       return res.status(404).send({ error: "Class not found" });
     }

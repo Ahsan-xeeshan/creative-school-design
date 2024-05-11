@@ -1,4 +1,5 @@
 const classSchema = require("../models/classSchema");
+const purchasedClassSchema = require("../models/PurchasedClass");
 
 async function createClassController(req, res) {
   try {
@@ -132,7 +133,7 @@ async function classRejectController(req, res) {
 async function classPurchaseController(req, res) {
   try {
     const { classname, price, image, buyerId } = req.body;
-    const purchaseData = new classSchema({
+    const purchaseData = new purchasedClassSchema({
       classname,
       price,
       image,

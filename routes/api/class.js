@@ -23,6 +23,6 @@ router.post("/classreject", classRejectController);
 router.post("/updateclass/:id", updateClassController);
 router.post("/deleteclass", deleteClassController);
 router.post("/purchaseclass", classPurchaseController);
-router.post("/selectedclasses", selectedClassesController);
+router.get("/selectedclasses", selectedClassesController);
 
 module.exports = router;

@@ -10,7 +10,6 @@ const {
   updateClassController,
   deleteClassController,
   classPurchaseController,
-  enrolledClassesController,
   selectedClassesController,
 } = require("../../controllers/createClassController.js");
 const instructorCardController = require("../../controllers/instructorCardController.js");

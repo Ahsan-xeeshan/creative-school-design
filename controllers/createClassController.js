@@ -152,13 +152,13 @@ async function selectedClassesController(req, res) {
   try {
     const { buyerId } = req.query;
 
-    const users = await purchasedClassSchema.find({ buyerId: buyerId });
+    const classes = await purchasedClassSchema.find({ buyerId: buyerId });
 
-    if (!users || users.length === 0) {
+    if (!classes || classes.length === 0) {
       return res.status(404).json({ message: "No class found" });
     }
 
-    res.status(200).json(users);
+    res.status(200).json(classes);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });

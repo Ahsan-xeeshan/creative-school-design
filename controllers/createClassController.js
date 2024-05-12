@@ -148,14 +148,14 @@ async function classPurchaseController(req, res) {
   }
 }
 
-async function enrolledClassesController(req, res) {
+async function selectedClassesController(req, res) {
   try {
     const { buyerId } = req.query;
 
     const users = await purchasedClassSchema.find({ buyerId: buyerId });
 
     if (!users || users.length === 0) {
-      return res.status(404).json({ message: "No users found" });
+      return res.status(404).json({ message: "No class found" });
     }
 
     res.status(200).json(users);
@@ -174,5 +174,5 @@ module.exports = {
   classRejectController,
   updateClassController,
   classPurchaseController,
-  enrolledClassesController,
+  selectedClassesController,
 };

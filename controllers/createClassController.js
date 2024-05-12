@@ -165,6 +165,20 @@ async function selectedClassesController(req, res) {
   }
 }
 
+async function deleteSelectionController(req, res) {
+  try {
+    const { id } = req.body;
+    const data = await purchasedClassSchema.deleteOne({ _id: id });
+    if (!data) {
+      return res.status(404).send({ error: "Class not found" });
+    }
+    res.send({ success: "Class deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting class:", error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   createClassController,
   allClassController,
@@ -175,4 +189,5 @@ module.exports = {
   updateClassController,
   classPurchaseController,
   selectedClassesController,
+  deleteSelectionController,
 };

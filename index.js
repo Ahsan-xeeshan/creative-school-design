@@ -3,6 +3,10 @@ const dbConnection = require("./config/dbConnection");
 const route = require("./routes");
 const cors = require("cors");
 const session = require("express-session");
+const stripe = require("stripe")(
+  "pk_test_51PFi5QAivobkXwZsYe6VK8yBo6tkYT8AJFicXnmnCMlhB5ETMFxKqAdWVXFAZxRvjUgkvMHZ811qLzInEnXTCLXC00bJR4rSE1"
+);
+const { v4: uuidv4 } = require("uuid");
 const app = express();
 require("dotenv").config();
 

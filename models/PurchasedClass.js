@@ -12,7 +12,8 @@ const purchasedClassSchema = new Schema({
     type: String,
   },
   buyerId: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "UserList",
   },
 });
 

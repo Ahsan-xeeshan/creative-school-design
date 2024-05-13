@@ -16,6 +16,9 @@ async function registrationController(req, res) {
   } else if (!emailInput.test(email)) {
     return res.json({ error: "Name is Invalid" });
   }
+  if (!image) {
+    return res.json({ error: "Photo URL is required" });
+  }
   if (!password) {
     return res.json({ error: "Password is required" });
   } else {

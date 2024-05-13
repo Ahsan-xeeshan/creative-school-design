@@ -4,7 +4,7 @@ const stripe = require("stripe")(
 
 // Assuming the amount is passed in the request body
 async function paymentController(req, res) {
-  const { price } = req.body.item;
+  const { price } = req.body;
 
   // Create a PaymentIntent with the dynamic amount
   const paymentIntent = await stripe.paymentIntents.create({

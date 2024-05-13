@@ -12,17 +12,18 @@ async function registrationController(req, res) {
     return res.json({ error: "Name is required" });
   }
   if (!email) {
-    return res.json("Email is required!");
+    return res.json({ error: "Email is required" });
   } else if (!emailInput.test(email)) {
-    return res.json("Email is Invalid");
+    return res.json({ error: "Name is Invalid" });
   }
   if (!password) {
-    return res.json("Password is required!");
+    return res.json({ error: "Password is required" });
   } else {
     if (!passwordInput.test(password)) {
-      return res.json(
-        "#Password should be between 8 to 15 characters which contain at least one lowercase letter[a-z], one uppercase letter[A-Z], one numeric digit[0-9], and one special character[!,@,#,$,%,^,&,*]"
-      );
+      return res.json({
+        error:
+          "#Password should be between 8 to 15 characters which contain at least one lowercase letter[a-z], one uppercase letter[A-Z], one numeric digit[0-9], and one special character[!,@,#,$,%,^,&,*]",
+      });
     }
   }
   const existingEmail = await UserList.find({ email });

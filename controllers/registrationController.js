@@ -111,7 +111,7 @@ async function googleSignInController(req, res, next) {
           }
         });
     } else {
-      bcrypt.hash(password, 10, function (err, hash) {
+      await bcrypt.hash(password, 10, function (err, hash) {
         const users = new UserList({
           username,
           email,
@@ -129,6 +129,7 @@ async function googleSignInController(req, res, next) {
           image,
           role,
           username,
+          id: existingEmail[0]._id,
         });
       });
     }

@@ -89,7 +89,7 @@ async function beInstructorController(req, res) {
 }
 
 async function googleSignInController(req, res, next) {
-  const { username, image, email, password } = req.body;
+  const { username, image, email, password, role } = req.body;
   bcrypt.hash(password, 10, function (err, hash) {
     const users = new UserList({
       username,

@@ -125,6 +125,10 @@ async function googleSignInController(req, res, next) {
         // res.send(users);
         res.send({
           success: "Registration Successfully done.",
+          email,
+          image,
+          role,
+          username,
         });
       });
     }

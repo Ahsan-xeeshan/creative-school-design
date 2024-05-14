@@ -91,49 +91,59 @@ async function beInstructorController(req, res) {
 async function googleSignInController(req, res, next) {
   const { username, image, email, password, role } = req.body;
   try {
-    const existingEmail = await UserList.find({ email });
-    if (existingEmail.length > 0) {
-      console.log(existingEmail[0].password);
-      bcrypt
-        .compare(password, existingEmail[0].password)
-        .then(function (result) {
-          if (result) {
-            return res.json({
-              success: "Login Successfull",
-              id: existingEmail[0]._id,
-              role: existingEmail[0].role,
-              email: existingEmail[0].email,
-              image: existingEmail[0].image,
-              username: existingEmail[0].username,
-            });
-          } else {
-            return res.json({ error: "something wrong" });
-          }
+    // Check if the email already exists in the database
+    const existingUser = await UserList.findOne({ email });
+
+    if (existingUser) {
+      // If user exists, compare passwords
+      const passwordMatch = await bcrypt.compare(
+        password,
+        existingUser.password
+      );
+
+      if (passwordMatch) {
+        // If passwords match, return success response
+        return res.json({
+          success: "Login Successful",
+          id: existingUser._id,
+          role: existingUser.role,
+          email: existingUser.email,
+          image: existingUser.image,
+          username: existingUser.username,
         });
+      } else {
+        // If passwords do not match, return error response
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
     } else {
-      await bcrypt.hash(password, 10, async function (err, hash) {
-        const users = new UserList({
-          username,
-          email,
-          image,
-          password: hash,
-          role,
-        });
-        users.save();
-        // var token = jwt.sign({ email }, "xeeshan");
-        const existingEmail = await UserList.find({ email });
-        // res.send(users);
-        res.send({
-          success: "Registration Successfully done.",
-          email,
-          image,
-          role,
-          username,
-          id: existingEmail[0]._id,
-        });
+      // If user does not exist, hash the password and create a new user
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new UserList({
+        username,
+        email,
+        image,
+        password: hashedPassword,
+        role,
+      });
+
+      // Save the new user to the database
+      await newUser.save();
+
+      // Retrieve the newly created user from the database
+      const savedUser = await UserList.findOne({ email });
+
+      // Return success response
+      return res.json({
+        success: "Registration Successful",
+        id: savedUser._id,
+        email: savedUser.email,
+        image: savedUser.image,
+        role: savedUser.role,
+        username: savedUser.username,
       });
     }
   } catch (error) {
+    // Handle errors
     next(error);
   }
 }

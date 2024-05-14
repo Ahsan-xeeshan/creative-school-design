@@ -7,11 +7,13 @@ const {
   beAdminController,
   beStudentController,
   beInstructorController,
+  googleSignInController,
 } = require("../../controllers/registrationController");
 const loginController = require("../../controllers/loginController");
 const logoutController = require("../../controllers/logoutController");
 
 router.post("/registration", registrationController);
+router.post("/googlesignin", googleSignInController);
 router.post("/login", loginController);
 router.post("/logout", logoutController);
 router.get("/allusers", allUserController);

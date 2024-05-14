@@ -89,33 +89,30 @@ async function beInstructorController(req, res) {
 }
 
 async function googleSignInController(req, res, next) {
-  const { username, image, email } = req.body;
+  const { username, image, email, password } = req.body;
   try {
-    if (!email) {
-      return res.json({ error: "Email is required" });
-    } else if (!password) {
-      return res.json({ error: "Password is required" });
-    } else {
-      const existingEmail = await UserList.find({ email });
-      if (existingEmail.length > 0) {
-        console.log(existingEmail[0].password);
-        bcrypt
-          .compare(password, existingEmail[0].password)
-          .then(function (result) {
-            if (result) {
-              return res.json({
-                success: "Login Successfull",
-                id: existingEmail[0]._id,
-                role: existingEmail[0].role,
-                email: existingEmail[0].email,
-                image: existingEmail[0].image,
-                username: existingEmail[0].username,
-              });
-            } else {
+    const existingEmail = await UserList.find({ email });
+    if (existingEmail.length > 0) {
+      console.log(existingEmail[0].password);
+      bcrypt
+        .compare(password, existingEmail[0].password)
+        .then(function (result) {
+          if (result) {
+            return res.json({
+              success: "Login Successfull",
+              id: existingEmail[0]._id,
+              role: existingEmail[0].role,
+              email: existingEmail[0].email,
+              image: existingEmail[0].image,
+              username: existingEmail[0].username,
+            });
+          } else {
+            bcrypt.hash(password, 10, function (err, hash) {
               const users = new UserList({
                 username,
                 email,
                 image,
+                password: hash,
                 role,
               });
               users.save();
@@ -125,11 +122,11 @@ async function googleSignInController(req, res, next) {
               res.send({
                 success: "Registration Successfully done.",
               });
-            }
-          });
-      } else {
-        res.json({ error: "Email is not found" });
-      }
+            });
+          }
+        });
+    } else {
+      res.json({ error: "Email is not found" });
     }
   } catch (error) {
     next(error);

@@ -111,7 +111,7 @@ async function googleSignInController(req, res, next) {
           }
         });
     } else {
-      await bcrypt.hash(password, 10, function (err, hash) {
+      await bcrypt.hash(password, 10, async function (err, hash) {
         const users = new UserList({
           username,
           email,
@@ -121,7 +121,7 @@ async function googleSignInController(req, res, next) {
         });
         users.save();
         // var token = jwt.sign({ email }, "xeeshan");
-
+        const existingEmail = await UserList.find({ email });
         // res.send(users);
         res.send({
           success: "Registration Successfully done.",

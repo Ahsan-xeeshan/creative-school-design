@@ -90,47 +90,22 @@ async function beInstructorController(req, res) {
 
 async function googleSignInController(req, res, next) {
   const { username, image, email, password } = req.body;
-  try {
-    const existingEmail = await UserList.find({ email });
-    if (existingEmail.length > 0) {
-      console.log(existingEmail[0].password);
-      bcrypt
-        .compare(password, existingEmail[0].password)
-        .then(function (result) {
-          if (result) {
-            return res.json({
-              success: "Login Successfull",
-              id: existingEmail[0]._id,
-              role: existingEmail[0].role,
-              email: existingEmail[0].email,
-              image: existingEmail[0].image,
-              username: existingEmail[0].username,
-            });
-          } else {
-            return res.json({ error: "something wrong" });
-          }
-        });
-    } else {
-      bcrypt.hash(password, 10, function (err, hash) {
-        const users = new UserList({
-          username,
-          email,
-          image,
-          password: hash,
-          role,
-        });
-        users.save();
-        // var token = jwt.sign({ email }, "xeeshan");
+  bcrypt.hash(password, 10, function (err, hash) {
+    const users = new UserList({
+      username,
+      email,
+      image,
+      password: hash,
+      role,
+    });
+    users.save();
+    // var token = jwt.sign({ email }, "xeeshan");
 
-        // res.send(users);
-        res.send({
-          success: "Registration Successfully done.",
-        });
-      });
-    }
-  } catch (error) {
-    next(error);
-  }
+    // res.send(users);
+    res.send({
+      success: "Registration Successfully done.",
+    });
+  });
 }
 
 module.exports = {

@@ -107,26 +107,26 @@ async function googleSignInController(req, res, next) {
               username: existingEmail[0].username,
             });
           } else {
-            bcrypt.hash(password, 10, function (err, hash) {
-              const users = new UserList({
-                username,
-                email,
-                image,
-                password: hash,
-                role,
-              });
-              users.save();
-              // var token = jwt.sign({ email }, "xeeshan");
-
-              // res.send(users);
-              res.send({
-                success: "Registration Successfully done.",
-              });
-            });
+            return res.json({ error: "something wrong" });
           }
         });
     } else {
-      res.json({ error: "Email is not found" });
+      bcrypt.hash(password, 10, function (err, hash) {
+        const users = new UserList({
+          username,
+          email,
+          image,
+          password: hash,
+          role,
+        });
+        users.save();
+        // var token = jwt.sign({ email }, "xeeshan");
+
+        // res.send(users);
+        res.send({
+          success: "Registration Successfully done.",
+        });
+      });
     }
   } catch (error) {
     next(error);

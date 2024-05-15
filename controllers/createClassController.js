@@ -149,7 +149,15 @@ async function classPurchaseController(req, res) {
       courseId,
     });
     await purchaseData.save();
-    res.status(200).json({ success: true, message: "Purchase successful" });
+    res.status(200).json({
+      success: true,
+      message: "Purchase successful",
+      classname,
+      price,
+      image,
+      buyerId,
+      courseId,
+    });
   } catch (error) {
     // Handle the error
     console.error("Error in class purchase:", error);

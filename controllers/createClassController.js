@@ -135,7 +135,7 @@ async function classPurchaseController(req, res) {
     const { classname, price, image, buyerId, courseId } = req.body;
     let existingSelectedClass = await classSchema.findById(buyerId);
 
-    if (existingSelectedClass.length > 0) {
+    if (existingSelectedClass) {
       res.json({
         error: "This class is already added to the cart or purchased",
       });

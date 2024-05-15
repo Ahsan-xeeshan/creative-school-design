@@ -15,6 +15,10 @@ const purchasedClassSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "UserList",
   },
+  courseId: {
+    type: Schema.Types.ObjectId,
+    ref: "ClassList",
+  },
 });
 
 module.exports = mongoose.model("SellList", purchasedClassSchema);

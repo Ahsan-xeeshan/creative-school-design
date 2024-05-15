@@ -132,12 +132,21 @@ async function classRejectController(req, res) {
 
 async function classPurchaseController(req, res) {
   try {
-    const { classname, price, image, buyerId } = req.body;
+    const { classname, price, image, buyerId, courseId } = req.body;
+    let existingSelectedClass = await classSchema.findById(buyerId);
+
+    if (existingSelectedClass.length > 0) {
+      res.json({
+        error: "This class is already added to the cart or purchased",
+      });
+    }
+
     const purchaseData = new purchasedClassSchema({
       classname,
       price,
       image,
       buyerId,
+      courseId,
     });
     await purchaseData.save();
     res.status(200).json({ success: true, message: "Purchase successful" });
@@ -169,6 +178,7 @@ async function deleteSelectionController(req, res) {
   try {
     const { id } = req.body;
     const data = await purchasedClassSchema.deleteOne({ _id: id });
+
     if (!data) {
       return res.status(404).send({ error: "Class not found" });
     }

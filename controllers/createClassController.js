@@ -133,13 +133,6 @@ async function classRejectController(req, res) {
 async function classPurchaseController(req, res) {
   try {
     const { classname, price, image, buyerId, courseId } = req.body;
-    let existingSelectedClass = await classSchema.findById(buyerId);
-
-    if (existingSelectedClass) {
-      res.json({
-        error: "This class is already added to the cart or purchased",
-      });
-    }
 
     const purchaseData = new purchasedClassSchema({
       classname,
@@ -149,6 +142,11 @@ async function classPurchaseController(req, res) {
       courseId,
     });
     await purchaseData.save();
+    await classSchema.findOneAndUpdate(
+      { _id: purchasedClassSchema.courseId },
+      { $push: { classSelector: purchasedClassSchema.buyerId } },
+      { new: true }
+    );
     res.status(200).json({
       success: true,
       message: "Purchase successful",

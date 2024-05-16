@@ -37,6 +37,10 @@ const classSchema = new Schema({
   enrolled: {
     type: String,
   },
+  classSelector: {
+    type: Schema.Types.ObjectId,
+    ref: "UserList",
+  },
   status: {
     type: String,
     default: "pending",

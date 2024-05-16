@@ -141,23 +141,24 @@ async function classPurchaseController(req, res) {
       buyerId,
       courseId,
     });
+
     await purchaseData.save();
+
     await classSchema.findOneAndUpdate(
-      { _id: purchasedClassSchema.courseId },
-      { $push: { classSelector: purchasedClassSchema.buyerId } },
+      { _id: courseId },
+      { $push: { classSelector: buyerId } },
       { new: true }
     );
+
     res.status(200).json({
       success: true,
       message: "Purchase successful",
       classname,
       price,
       image,
-      buyerId,
       courseId,
     });
   } catch (error) {
-    // Handle the error
     console.error("Error in class purchase:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }

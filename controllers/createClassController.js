@@ -185,6 +185,7 @@ async function deleteSelectionController(req, res) {
   try {
     const { id } = req.body;
     const dataToDelete = await purchasedClassSchema.findById(id);
+    console.log(dataToDelete);
     const data = await purchasedClassSchema.deleteOne({ _id: id });
     console.log(data, "message of delete");
     await classSchema.findOneAndUpdate(

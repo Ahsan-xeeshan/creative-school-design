@@ -169,11 +169,7 @@ async function selectedClassesController(req, res) {
     const { buyerId } = req.query;
 
     const classes = await purchasedClassSchema.find({ buyerId: buyerId });
-    await classSchema.findOneAndUpdate(
-      { _id: classes.courseId },
-      { $pop: { classSelector: buyerId } },
-      { new: true }
-    );
+
     if (!classes || classes.length === 0) {
       return res.status(404).json({ message: "No class found" });
     }
@@ -189,7 +185,11 @@ async function deleteSelectionController(req, res) {
   try {
     const { id } = req.body;
     const data = await purchasedClassSchema.deleteOne({ _id: id });
-
+    await classSchema.findOneAndUpdate(
+      { _id: data.courseId },
+      { $pop: { classSelector: data.buyerId } },
+      { new: true }
+    );
     if (!data) {
       return res.status(404).send({ error: "Class not found" });
     }

@@ -185,11 +185,12 @@ async function deleteSelectionController(req, res) {
   try {
     const { id } = req.body;
     const data = await purchasedClassSchema.deleteOne({ _id: id });
-    await classSchema.findOneAndUpdate(
-      { _id: data.courseId },
-      { $pop: { classSelector: data.buyerId } },
-      { new: true }
-    );
+    console.log(data);
+    // await classSchema.findOneAndUpdate(
+    //   { _id: data.courseId },
+    //   { $pop: { classSelector: data.buyerId } },
+    //   { new: true }
+    // );
     if (!data) {
       return res.status(404).send({ error: "Class not found" });
     }

@@ -169,7 +169,11 @@ async function selectedClassesController(req, res) {
     const { buyerId } = req.query;
 
     const classes = await purchasedClassSchema.find({ buyerId: buyerId });
-
+    await classSchema.findOneAndUpdate(
+      { _id: classes.courseId },
+      { $pop: { classSelector: buyerId } },
+      { new: true }
+    );
     if (!classes || classes.length === 0) {
       return res.status(404).json({ message: "No class found" });
     }

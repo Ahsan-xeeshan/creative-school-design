@@ -8,10 +8,10 @@ async function paymentController(req, res) {
       mode: "payment",
       payment_method_types: ["card"],
       billing_address_collection: "auto",
-      shipping_option: [
-        { shipping_rate: "shr_1PJglSAivobkXwZsE3kczdGA" },
-        { shipping_rate: "shr_1PJgncAivobkXwZsO5ZODteX" },
-      ],
+      // shipping_option: [
+      //   { shipping_rate: "shr_1PJglSAivobkXwZsE3kczdGA" },
+      //   { shipping_rate: "shr_1PJgncAivobkXwZsO5ZODteX" },
+      // ],
       line_items: {
         price_data: {
           currency: "usd",

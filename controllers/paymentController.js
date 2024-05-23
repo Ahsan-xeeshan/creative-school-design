@@ -12,16 +12,19 @@ async function paymentController(req, res) {
         { shipping_rate: "shr_1PJglSAivobkXwZsE3kczdGA" },
         { shipping_rate: "shr_1PJgncAivobkXwZsO5ZODteX" },
       ],
-      line_items: [
-        {
-          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          price: "{{PRICE_ID}}",
-          quantity: 1,
+      line_items: {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            classImage: req.body.item.image,
+            courseName: req.body.item.classname,
+          },
+          unit_amount: req.body.item.price * 100,
         },
-      ],
-      mode: "payment",
-      success_url: `${YOUR_DOMAIN}?success=true`,
-      cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+      },
+
+      success_url: `https://creative-design-school.vercel.app?success=true`,
+      cancel_url: `https://creative-design-school.vercel.app/?canceled=true`,
     };
     const session = await stripe.checkout.sessions.create(params);
 
